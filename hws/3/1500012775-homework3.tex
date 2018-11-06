@@ -1,0 +1,120 @@
+%!TEX program = xelatex
+\documentclass[a4paper]{article}
+
+\usepackage{ctex}
+\usepackage{fontspec, xunicode, xltxtra}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath,amssymb}
+\usepackage{lastpage}{}
+\usepackage{inden tfirst}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{graphicx}
+\usepackage{courier}
+\lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+         numbers=left,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+         %stepnumber=5,               % Abstand zwischen den Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=4,                  % Groesse von Tabs
+         extendedchars=true,         %
+         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{blue!70}\bfseries,
+         commentstyle=\rmfamily\itshape,
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         frame=b,
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?
+}
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,justification=raggedright,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={sf,bf,footnotesize}}
+
+\renewcommand{\today}{\number\year /\number\month /\number\day}
+
+\setmainfont{Hiragino Sans GB}
+\lhead{1500012775 钱昊}
+\rhead{Page \thepage{} of \pageref{LastPage}}
+\begin{document}
+\section*{1}
+存储数据大小为$n$
+\begin{lstlisting}[language=C++]
+int top(){
+	int res;
+	while(!A.empty()){
+	     int tmp =  A.front();
+	     A.pop_front();
+         B.push_back(tmp);
+         if(A.empty())
+             res = tmp;	
+	}
+	while(!B.empty()){
+	     A.push_back(B.front());
+	     B.pop_front();
+	}
+	return res;
+}
+\end{lstlisting}
+时间复杂度O(n)\\
+\\
+\begin{lstlisting}[language=C++]
+void pop(){
+	while(!A.empty()){
+	int tmp = A.front();
+	A.pop_front();
+	if(!A.empty())
+        B.push_back(tmp);
+	}
+	while(!B.empty()){
+	    A.push_back(B.front());
+	    B.pop_front();
+	}
+}
+\end{lstlisting}
+时间复杂度O(n)\\
+\\
+\begin{lstlisting}[language=C++]
+void push(int &x){
+	A.push_back(x);
+}
+\end{lstlisting}
+时间复杂度O(1)\\
+\\
+\begin{lstlisting}[language=C++]
+bool empty(){
+	return A.empty();
+}
+\end{lstlisting}
+时间复杂度O(1)\\
+\\
+\section*{2}
+\subsection*{formula}
+出栈顺序等价于求n个0，n个1组成的排列个数。\\
+该排列满足性质，对于任意其任意子排列[0,a),该子排列满足0的个数大于等于1\\
+总的排列数$C_{2n}^n$\\
+求不满足要求的排列数\\
+对于任何不满足的排列，存在一个子排列，使得子排列有$x+1$个1，$x$个0，然后将改子排列的0，1互换，就变成了n+1个0，n-1个1的排列，且这种转换一一对应。个数为$C_{2n}^{n+1}$\\
+Catalan数=$C_{2n}^n-C_{2n}^{n+1}=\frac{1}{n}C_{2n}^n$
+\subsection*{Prove}
+这道题等价于求当$i<j<k$,所有可能出现的$P_i,P_j,P_k$的顺序\\
+1. j 入栈时， i 已经出栈\\
+1.1 j出栈后， k入栈, 出站顺序i，j,k $P_i<P_j<P_k$\\
+1.2 k先入栈，出站顺序i，k，j$P_i<P_k<P_j$\\
+2 j 入栈时， i未出栈， 同时先于k入栈出栈 \\
+2.1 k先于i出栈 出栈顺序j,k,i  $P_k<P_i<P_j$\\
+2.2 k后于i出栈 出栈顺序j,i,k  $P_j<P_i<P_k$ \\
+3 k入栈，i,j都没出栈，出栈顺序k,j,i $P_k<P_j<P_i$\\
+综上，对于$P_i,P_j,P_k$的排列，只有$P_j<P_k<P_i$没有出现\\
+所以不存在下表$i,j,k$，使得$P_j<P_k<P_i$\\
+\end{document}

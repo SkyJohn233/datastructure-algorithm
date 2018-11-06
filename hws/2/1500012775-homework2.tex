@@ -1,0 +1,79 @@
+%!TEX program = xelatex
+\documentclass[a4paper]{article}
+
+\usepackage{ctex}
+\usepackage{fontspec, xunicode, xltxtra}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath,amssymb}
+\usepackage{lastpage}{}
+\usepackage{inden tfirst}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{graphicx}
+
+\setmainfont{Hiragino Sans GB}
+\lhead{1500012775 钱昊}
+\rhead{Page \thepage{} of \pageref{LastPage}}
+\begin{document}
+\section*{1}
+\begin{lstlisting}[language=C++]
+bool isCircle(Listnode *head){
+	Listnode *slow=head,*fast=head;
+	while(fast){
+		fast=fast->next;
+		if(fast)
+		fast=fast->next;
+		slow=slow->next;
+		if(slow==fast)
+			break;
+	}
+	return fast==nullptr?false:true;
+}
+
+\end{lstlisting}
+空间复杂度：\\
+O(1)\\
+时间复杂度\\
+假如没有环 时间复杂度为$O(n)$；假如有环，令$K$为从head开始到环开始地方的长度，$L$为环的长度，令$D=K\mod L$,时间复杂度为$O(K+(L-D))$。总结来说，时间复杂度$O(n)$
+
+\section*{2}
+\subsection*{2.1}
+设计：\\
+跳表共有n层单链表组成。\\
+level1 层单链表包含了原单链表的所有元素\\
+level2 层单链表包含了$\frac{n}{2}$元素，相邻元素的间隔为2\\
+level3 层单链表包含了$\frac{n}{4}$元素，相邻元素间隔为4\\
+以此类推\\
+n的大小由原单链表的长度L决定\\
+第二步\\
+将每层的链表连起来\\
+具体操作:\\
+\begin{lstlisting}[language=C++]
+struct Skiplistnode{
+	int val;
+	Skiplistnode *next,*down;
+}
+\end{lstlisting}
+其中next指针指向同level链表的下一个元素，down指针指向level-1层链表的相同元素。（这个由构造保证一定存在）
+
+这里，我们首先需要将原链表进行排序。
+查找第i个元素的伪代码
+\begin{lstlisting}
+fuction search(Skiplistnode *cur,int tar){
+    if cur->val == tar
+        return 
+	if cur->next == nullptr || cur->next->val<=tar
+	   search(cur->next,tar)
+	search(cur->down,tar)
+}
+
+\end{lstlisting}
+\subsection*{2.2}
+时间复杂度分析：\\
+由于SkipList的构造可知，通过判断cur->next->val 与 tar的大小，将整个search的范围缩小了一半\\
+可以得到递推方程\\
+T(n)=T(n/2)+O(1)\\
+得到T(n)=O(logn)
+\end{document}

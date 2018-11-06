@@ -1,0 +1,62 @@
+%!TEX program = xelatex
+\documentclass[a4paper]{article}
+
+\usepackage{ctex}
+\usepackage{fontspec, xunicode, xltxtra}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath,amssymb}
+\usepackage{lastpage}{}
+\usepackage{inden tfirst}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{graphicx}
+
+\setmainfont{Hiragino Sans GB}
+\lhead{1500012775 钱昊}
+\rhead{Page \thepage{} of \pageref{LastPage}}
+\begin{document}
+\section*{1}
+
+\begin{align*}
+ & 100n^2 \le  2^n \\
+ \Rightarrow & \log(100n^2) \le n \\
+ \Rightarrow & \log100 + 2\log n \le n \\
+ \Rightarrow & n - 2\log n \ge \log100 \\
+\end{align*}
+令$f(x)= x-2\log x$ \\
+$f'(x)=1-\frac{2}{ln2}*\frac1n$ \\
+\begin{align*}
+& f'(x) = 0 \\
+\Rightarrow & x = \frac{2}{ln2} \\ 
+\Rightarrow & x \simeq 2 \\
+\end{align*}
+同时 \\
+$f(2)=f(4)=0$ 可知\\
+$x>4,f(x)递增$\\
+由计算可知\\
+$f(14)<\log100<f(15)$\\
+结果为$15$
+
+\section*{2}
+为了方便起见，不妨设$f(n)=O(g(n))$\\
+\begin{align*}
+当n足够大时\\
+max(f(n),O(g(n))=g(n)\\
+\Theta(f(n)+g(n))<=\Theta(O(g(n))+g(n))=g(n)\\
+上式取等号\\
+所以\\
+max(f(n),g(n))=\Theta(f(n)+g(n))
+\end{align*}
+
+\section*{3}
+\begin{align*}
+T(n) &= T(n-1) + n \\
+T(n-1) &= T(n-2) + n - 1 \\
+\ldots \\
+T(2) &= T(1) + 2\\
+\end{align*}
+可以得到\\
+$T(n)=\frac{n(n+1)}{2}-1+T(1)=O(n^2)$
+\end{document}
